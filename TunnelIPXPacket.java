@@ -93,52 +93,32 @@ public class TunnelIPXPacket {
 	}
 	public boolean isBroadcast()
 	{
-		return dest_IPXnode==0x0FFFFFFFFFFFFl;
+		return ((dest_IPXnode==0x0090007FFFFFFl) ||
+		        (dest_IPXnode==0x0FFFFFFFFFFFFl) );
 	}
 	public boolean analyze()
 	{
 		originalip=pack.getAddress();
 		originalport=pack.getPort();
 		// Length
-		length=data[3]&0xff;
-		length|=data[2]<<8;
-		if(length>data.length||length<30) return false;
-		// packet type
-		packetType = data[5]&0xff;
+		if(data.length<12) return false;
 		
 		// dest
-		dest_IPXsocket =  data[6+10+1]&0xff;
-		dest_IPXsocket |= ((data[6+10]<<8)&0xff00);
-		
-		dest_IPXnet = data[6+0+3]&0xff;
-		dest_IPXnet |= data[6+0+2]<<8;
-		dest_IPXnet |= data[6+0+1]<<16;
-		dest_IPXnet |= data[6+0+0]<<24;
-		
-		dest_IPXnode = data[6+4+5]&0xff;
-		dest_IPXnode |= (data[6+4+4]<<8)&0xff00;
-		dest_IPXnode |= (data[6+4+3]<<16)&0xff0000;
-		dest_IPXnode |= (long)((long)data[6+4+2]<<24)&0xff000000l;
-		dest_IPXnode |= (long)((long)data[6+4+1]<<32)&0xff00000000l;
-		dest_IPXnode |= (long)((long)data[6+4+0]<<40)&0xff0000000000l;
+		dest_IPXnode = data[5]&0xff;
+		dest_IPXnode |= (data[4]<<8)&0xff00;
+		dest_IPXnode |= (data[3]<<16)&0xff0000;
+		dest_IPXnode |= (long)((long)data[2]<<24)&0xff000000l;
+		dest_IPXnode |= (long)((long)data[1]<<32)&0xff00000000l;
+		dest_IPXnode |= (long)((long)data[0]<<40)&0xff0000000000l;
 		
 		
 		// source
-		source_IPXsocket =  data[18+10+1]&0xff;
-		source_IPXsocket |= ((data[18+10]<<8)&0xff00);
-		
-		source_IPXnet = data[18+0+3]&0xff;
-		source_IPXnet |= data[18+0+2]<<8;
-		source_IPXnet |= data[18+0+1]<<16;
-		source_IPXnet |= data[18+0+0]<<24;
-		
-		source_IPXnode = data[18+4+5]&0xff;
-		
-		source_IPXnode |= (data[18+4+4]<<8)&0xff00;
-		source_IPXnode |= (data[18+4+3]<<16)&0xff0000;
-		source_IPXnode |= (long)((long)data[18+4+2]<<24)&0xff000000;
-		source_IPXnode |= (long)((long)data[18+4+1]<<32)&0xff00000000l;
-		source_IPXnode |= (long)((long)data[18+4+0]<<40)&0xff0000000000l;
+		source_IPXnode = data[6+5]&0xff;
+		source_IPXnode |= (data[6+4]<<8)&0xff00;
+		source_IPXnode |= (data[6+3]<<16)&0xff0000;
+		source_IPXnode |= (long)((long)data[6+2]<<24)&0xff000000;
+		source_IPXnode |= (long)((long)data[6+1]<<32)&0xff00000000l;
+		source_IPXnode |= (long)((long)data[6+0]<<40)&0xff0000000000l;
 		
 		return true;
 	}

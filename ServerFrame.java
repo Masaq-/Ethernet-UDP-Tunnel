@@ -216,7 +216,7 @@ implements ActionListener, WindowListener
 	}
 	
 	final String[] tableheaders=new String[]
-		{"IPX","IP","UDP","Broadcast",
+		{"Ether","IP","UDP","Broadcast",
 		 "Unicast","Traffic","Traffic kbyte/s","Activity",
 		 "PingMin","Timeout","PingNow"};
 	private JLabel jLabel = null;

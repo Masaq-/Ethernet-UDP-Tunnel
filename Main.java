@@ -8,7 +8,7 @@ public class Main
 	static ServerFrame sf;
 	static Thread MainThread;
 	static int pingvictim=-1;
-	public static String appname="IPX Tunneling Server 0.11";
+	public static String appname="Ethernet UDP Tunneling Server";
 	private static DatagramSocket tryOpenUDPPort(int port)
 	{
 		DatagramSocket retval;
@@ -25,7 +25,7 @@ public class Main
 	public static DatagramSocket sock;
 	public static void main( String args[] ) throws Exception
 	{
-		int port=213;
+		int port=6066;
 		if(args.length > 0) {
 			try {
 				port = Integer.parseInt(args[0]);
@@ -73,7 +73,11 @@ public class Main
 		{
 			sock.receive(tip.pack);
 			tip.analyze();
-			if(IPXTunnelClient.receivePacket(tip))
+			if(!IPXTunnelClient.receivePacket(tip))
+			{
+				new IPXTunnelClient(tip);
+				sf.updateTable();
+			}
 			{
 				int z=clv.size();
 				IPXTunnelClient cli;
@@ -96,17 +100,9 @@ public class Main
 						if(ic!=null&&tip.dest_IPXnode==ic.myipxNodeNumber)
 						{
 							ic.sendPacketToMe(tip);
-							break;
 						}
 					}	
 				}
-			}
-			else if(tip.source_IPXsocket==2)
-			{
-				new IPXTunnelClient(tip);
-				tip.prepare();
-				sock.send(tip.pack);
-				sf.updateTable();
 			}
 			//sf.updateTable();
 		}

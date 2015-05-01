@@ -27,7 +27,7 @@ public class IPXTunnelClient
 	public int maxPing;
 	public int minPing;
 	public int currentPing;
-	final static private int timeout=120000;
+	final static private int timeout=3600000;
 	private long lastRXThroughputRequest;
 	private int lastRXThroughputNumber;
 	private long lastTXThroughputRequest;
@@ -129,7 +129,7 @@ public class IPXTunnelClient
 		pingpacket.setIPDestination(myip, myport);
 		lastPingSent=System.currentTimeMillis();
 		ping_waiting=true;
-		pingpacket.send();
+		//pingpacket.send();
 	}
 	
 	
@@ -142,7 +142,10 @@ public class IPXTunnelClient
 		{
 			c=(IPXTunnelClient)clientVector.elementAt(i);
 			if(c!=null)
-				if(c.isMyPacket(tip)) return true;
+				if(c.isMyPacket(tip)) {
+					c.lastPingReceived=System.currentTimeMillis();
+					return true;
+				}
 		}
 		// System.out.println("unknown packet");
 		return false;
@@ -178,18 +181,9 @@ public class IPXTunnelClient
 	
 	public IPXTunnelClient(TunnelIPXPacket tip)
 	{
-		// make address
-		tip.dest_IPXnet=1;
-		tip.dest_IPXnode=((long)(tip.pack.getAddress().hashCode())<<16)
-			&0xffffffffffffl;
-		tip.dest_IPXnode|=(tip.pack.getPort());
-		
-		tip.prepare();
-		// set variables	
 		myport=tip.pack.getPort();
 		myip=tip.pack.getAddress();
-		myipxNodeNumber = tip.dest_IPXnode;
-		myipxNetNumber = tip.dest_IPXnet;
+		myipxNodeNumber = tip.source_IPXnode;
 		clientVector.add(this);
 		lastPingReceived=System.currentTimeMillis();
 		maxPing=0;
