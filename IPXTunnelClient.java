@@ -35,6 +35,7 @@ public class IPXTunnelClient
 	
 	public int getLateValue()
 	{
+		if(true) return (int)(timeout-(System.currentTimeMillis()-lastPingReceived)); else {
 		if(ping_waiting!=ping_late)
 		{
 			if(ping_waiting)
@@ -57,7 +58,7 @@ public class IPXTunnelClient
 			}
 			else return timeout;
 		}
-		
+		}
 	}
 
 	public float getRXThroughput()

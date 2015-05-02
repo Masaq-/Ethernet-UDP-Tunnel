@@ -101,7 +101,7 @@ public class TunnelIPXPacket {
 		originalip=pack.getAddress();
 		originalport=pack.getPort();
 		// Length
-		if(data.length<12) return false;
+		if(pack.getLength() < 12) return false;
 		
 		// dest
 		dest_IPXnode = data[5]&0xff;

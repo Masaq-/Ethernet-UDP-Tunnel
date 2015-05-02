@@ -72,7 +72,7 @@ public class Main
 		while(true)
 		{
 			sock.receive(tip.pack);
-			tip.analyze();
+			if(!tip.analyze()) continue;
 			if(!IPXTunnelClient.receivePacket(tip))
 			{
 				new IPXTunnelClient(tip);
