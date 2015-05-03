@@ -116,7 +116,7 @@ public class TunnelIPXPacket {
 		source_IPXnode = data[6+5]&0xff;
 		source_IPXnode |= (data[6+4]<<8)&0xff00;
 		source_IPXnode |= (data[6+3]<<16)&0xff0000;
-		source_IPXnode |= (long)((long)data[6+2]<<24)&0xff000000;
+		source_IPXnode |= (long)((long)data[6+2]<<24)&0xff000000l;
 		source_IPXnode |= (long)((long)data[6+1]<<32)&0xff00000000l;
 		source_IPXnode |= (long)((long)data[6+0]<<40)&0xff0000000000l;
 		
