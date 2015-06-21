@@ -153,6 +153,7 @@ public class IPXTunnelClient
 	}
 	public boolean isMyPacket(TunnelIPXPacket tip)
 	{
+		if(tip.source_IPXnode==this.myipxNodeNumber)
 		if(tip.pack.getAddress().equals(this.myip))
 			if(tip.pack.getPort()==this.myport)
 			{
