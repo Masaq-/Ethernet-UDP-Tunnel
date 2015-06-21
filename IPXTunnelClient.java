@@ -106,7 +106,7 @@ public class IPXTunnelClient
 	}
 		
 	// Storage of IPXTunnelClients
-	private static Vector clientVector = new Vector();
+	private static Vector<IPXTunnelClient> clientVector = new Vector<IPXTunnelClient>();
 	
 	static Vector getClientVector(){return clientVector;}
 	
